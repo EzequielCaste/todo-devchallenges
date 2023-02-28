@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import TabContainer from './TabContainer';
+import TodoForm from './TodoForm';
 
 const Header = styled.h1`
 font-weight: 700;
@@ -24,8 +25,11 @@ const Todo = () => {
   return (
     <>
       <Header>#Todo</Header>
-      <TabContainer active={activeTab} handleClick={handleClick} />
-
+      <TabContainer 
+        active={activeTab} 
+        handleClick={handleClick} 
+      />
+      <TodoForm active={activeTab} />
     </>
   )
 }

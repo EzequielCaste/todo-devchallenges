@@ -2,13 +2,17 @@ import React, {useState} from 'react'
 import styled from 'styled-components'
 import {Todo} from '../../types'
 
-const Li = styled.li<{status?: boolean}>`
+const Li = styled.li`
   display: flex;
   cursor: pointer;
   width: fit-content;
   align-items: center;
   margin-bottom: 27px;
-  text-decoration: ${(props) => (props.status ? 'line-through' : 'none')};
+`
+
+const LiContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 
 const Input = styled.input`
@@ -19,6 +23,14 @@ const Input = styled.input`
 
 const Icon = styled.span`
   cursor: pointer;
+`
+
+const Span = styled.span<{status?: boolean}>`
+  ${(props) =>
+    props.status &&
+    `
+  text-decoration: line-through;
+`}
 `
 
 interface Props {
@@ -42,7 +54,12 @@ const TodoItem: React.FC<Props> = ({
   }
 
   function handleDeleteTodo() {
-    deleteTodo(todo.id)
+    if (window.confirm('Delete task?')) {
+      console.log('yes')
+      deleteTodo(todo.id)
+    } else {
+      console.log('no')
+    }
   }
 
   const DeleteIcon: () => JSX.Element | null = () => {
@@ -54,13 +71,13 @@ const TodoItem: React.FC<Props> = ({
   }
 
   return (
-    <>
-      <Li onClick={toggleTodo} status={completed}>
+    <LiContainer>
+      <Li onClick={toggleTodo}>
         <Input onChange={() => {}} type="checkbox" checked={completed} />
-        {todo.text}
+        <Span status={completed}>{todo.text}</Span>
       </Li>
       <DeleteIcon />
-    </>
+    </LiContainer>
   )
 }
 

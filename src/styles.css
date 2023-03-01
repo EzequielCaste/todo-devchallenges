@@ -13,3 +13,8 @@ body {
   align-items: center;
   color: #333333;
 }
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}

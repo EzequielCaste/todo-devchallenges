@@ -9,6 +9,7 @@ import {todos} from '../todos.json'
 
 import {useLocalStorage} from '../hooks/useLocalStorage'
 import {Todo as TodoType} from '../types'
+import Footer from '../layout/Footer'
 
 const Header = styled.h1`
   font-weight: 700;
@@ -53,12 +54,9 @@ const Todo = () => {
 
     setTasks(newTasks)
   }
-
   function deleteTodo(id: string | number) {
-    if (window.confirm('Delete task?')) {
-      const newTasks = tasks.filter((todo) => todo.id !== id)
-      setTasks(newTasks)
-    }
+    const newTasks = tasks.filter((todo) => todo.id !== id)
+    setTasks(newTasks)
   }
 
   let todosToShow: TodoType[] = [...tasks]
@@ -84,6 +82,7 @@ const Todo = () => {
         deleteTodo={deleteTodo}
         todos={todosToShow}
       />
+      <Footer />
     </>
   )
 }

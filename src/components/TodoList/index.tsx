@@ -10,10 +10,10 @@ const Ul = styled.ul<{active: string}>`
   ${(props) =>
     props.active === 'completed' &&
     `
-display: flex;
-justify-content: space-between;
-align.items: center;
-`}
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  `}
 `
 
 interface Props {

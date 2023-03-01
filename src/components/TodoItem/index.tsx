@@ -4,6 +4,7 @@ import { Todo } from '../../types'
 
 interface Props {
   todo: Todo
+  updateStatus: (todo: number) => void
 }
 
 const Li = styled.li<{status?: boolean}>`
@@ -21,11 +22,12 @@ height: 24px;
 margin-right: 7px;
 `
 
-const TodoItem:React.FC<Props> = ({ todo }) => {
+const TodoItem:React.FC<Props> = ({ todo, updateStatus }) => {
   const [completed, setCompleted] = useState(todo.status === 'completed')
   
   function toggleTodo() {
     setCompleted(!completed);
+    updateStatus(todo.id)
   }
 
   return (

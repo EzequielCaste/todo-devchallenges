@@ -27,12 +27,21 @@ const Todo = () => {
   const [tasks, setTasks] = useLocalStorage('todos', todos)
 
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    console.log(e.currentTarget.innerText)
     setActiveTab(e.currentTarget.innerText.toLowerCase())
   }
 
-  function toogleCompleted(todo: Todo) {
-    //
+  function updateStatus(todoId: number ) {
+    const newTasks = tasks.map(todo => {
+      if (todo.id === todoId) {
+        return {
+          ...todo,
+          status: todo.status === 'completed' ? 'active' : 'completed'
+        }
+      } else {
+        return todo
+      }
+    })
+    setTasks(newTasks);
   }
 
   let todosToShow: {
@@ -56,7 +65,7 @@ const Todo = () => {
       <Header>#Todo</Header>
       <TabContainer active={activeTab} handleClick={handleClick} />
       <TodoForm active={activeTab} />
-      <TodoList todos={todosToShow} />
+      <TodoList updateStatus={updateStatus} todos={todosToShow} />
     </>
   )
 }

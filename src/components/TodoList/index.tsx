@@ -11,16 +11,17 @@ list-style: none;
 
 interface Props {
   todos: Todo[]
+  updateStatus: (todo: number) => void
 }
 
 
-const TodoList:React.FC<Props>= ({ todos }) => {
+const TodoList:React.FC<Props>= ({ todos, updateStatus }) => {
   return (
     <Container>
       <Ul>
         {
           todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} />
+            <TodoItem updateStatus={updateStatus} key={todo.id} todo={todo} />
           ))
         }
       </Ul>

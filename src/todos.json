@@ -1,0 +1,24 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "text": "Wash car",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "text": "Read one chapter",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "text": "Walk 30 minutes",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "text": "Take out the garbage",
+      "status": "completed"
+    }
+  ]
+}

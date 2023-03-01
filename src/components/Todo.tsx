@@ -3,9 +3,12 @@ import styled from 'styled-components'
 import TabContainer from './TabContainer'
 import TodoForm from './TodoForm'
 import TodoList from './TodoList'
+import { nanoid } from 'nanoid'
+
 import {todos} from '../todos.json'
 
 import {useLocalStorage} from '../hooks/useLocalStorage'
+import { Todo as TodoType } from '../types'
 
 const Header = styled.h1`
   font-weight: 700;
@@ -16,15 +19,9 @@ const Header = styled.h1`
   text-transform: lowercase;
   margin-top: 32px;
 `
-interface Todo {
-  id: number
-  text: string
-  status: string
-}
-
 const Todo = () => {
   const [activeTab, setActiveTab] = useState('all')
-  const [tasks, setTasks] = useLocalStorage('todos', todos)
+  const [tasks, setTasks] = useLocalStorage<TodoType[]>('todos', todos)
 
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     setActiveTab(e.currentTarget.innerText.toLowerCase())
@@ -44,11 +41,23 @@ const Todo = () => {
     setTasks(newTasks);
   }
 
-  let todosToShow: {
-    id: number
-    text: string
-    status: string
-  }[] = [...tasks]
+  function addTodo(todo: string) {
+    
+    const newTodo = {
+      id: nanoid(5),
+      text: todo,
+      status: 'active'
+    }
+
+    const newTasks = [...tasks]
+    
+    newTasks.unshift(newTodo)
+
+    setTasks(newTasks)
+
+  }
+
+  let todosToShow: TodoType[] = [...tasks]
 
   switch (activeTab) {
     case 'completed':
@@ -64,8 +73,12 @@ const Todo = () => {
     <>
       <Header>#Todo</Header>
       <TabContainer active={activeTab} handleClick={handleClick} />
-      <TodoForm active={activeTab} />
-      <TodoList updateStatus={updateStatus} todos={todosToShow} />
+      <TodoForm active={activeTab} handleAddTodo={addTodo} />
+      <TodoList 
+        active={activeTab} 
+        updateStatus={updateStatus} 
+        todos={todosToShow}         
+      />
     </>
   )
 }

@@ -1,4 +1,6 @@
+import { SetStateAction, useState } from 'react';
 import styled from 'styled-components';
+import { Todo } from '../../types';
 
 const Container = styled.div`
 padding-top: 18px;
@@ -26,18 +28,43 @@ color: #FFF;
 border: 0;
 font-weight: 600;
 font-size: 14px;
+cursor: pointer;
 `
 interface Props {
   active: string
+  handleAddTodo: (todo: string) => void
 }
 
-const TodoForm:React.FC<Props> = ({ active }) => {
+interface Event {
+  target: { value: SetStateAction<string>; }
+}
+
+const TodoForm:React.FC<Props> = ({ active, handleAddTodo }) => {
+  const [inputValue, setInputValue] = useState('')
+
+  function handleInputChange(e: Event) {
+    setInputValue(e.target.value);
+  }
+
+  function handleClick() {
+    if (inputValue === '') return null
+    handleAddTodo(inputValue)
+    setInputValue('')
+    //
+  }
+
   if(active !== 'completed') {
     return (
       <Container>
-        <StyledInput type="text" 
-        placeholder='add details' />
-        <StyledButton>add</StyledButton>
+        <StyledInput 
+          type="text" 
+          placeholder='add details' 
+          value={inputValue}
+          onChange={handleInputChange}
+        />
+        <StyledButton
+          onClick={handleClick}  
+        >add</StyledButton>
       </Container>
     )
   } else {

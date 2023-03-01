@@ -5,6 +5,7 @@ import { Todo } from '../../types'
 interface Props {
   todo: Todo
   updateStatus: (todo: number) => void
+  active: string
 }
 
 const Li = styled.li<{status?: boolean}>`
@@ -22,7 +23,11 @@ height: 24px;
 margin-right: 7px;
 `
 
-const TodoItem:React.FC<Props> = ({ todo, updateStatus }) => {
+const DeleteIcon = styled.span`
+cursor: pointer;
+`
+
+const TodoItem:React.FC<Props> = ({ todo, updateStatus, active }) => {
   const [completed, setCompleted] = useState(todo.status === 'completed')
   
   function toggleTodo() {
@@ -30,18 +35,24 @@ const TodoItem:React.FC<Props> = ({ todo, updateStatus }) => {
     updateStatus(todo.id)
   }
 
+  const showDeleteIcon = completed && active === 'completed'
+
   return (
-    <Li 
-      onClick={toggleTodo}
-      status={completed}
-    >
-      <Input
-        onChange={() => {}}
-        type="checkbox"
-        checked={completed}
-      />
-      {todo.text}
-    </Li>
+    <>
+      <Li 
+        onClick={toggleTodo}
+        status={completed}
+      >
+        <Input
+          onChange={() => {}}
+          type="checkbox"
+          checked={completed}
+        />
+        {todo.text}      
+      </Li>
+      {showDeleteIcon && <DeleteIcon>🗑</DeleteIcon>}
+    </>
+
   )
 }
 

@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import TabContainer from './TabContainer'
 import TodoForm from './TodoForm'
 import TodoList from './TodoList'
-import { nanoid } from 'nanoid'
+import {nanoid} from 'nanoid'
 
 import {todos} from '../todos.json'
 
 import {useLocalStorage} from '../hooks/useLocalStorage'
-import { Todo as TodoType } from '../types'
+import {Todo as TodoType} from '../types'
 
 const Header = styled.h1`
   font-weight: 700;
@@ -27,34 +27,38 @@ const Todo = () => {
     setActiveTab(e.currentTarget.innerText.toLowerCase())
   }
 
-  function updateStatus(todoId: number ) {
-    const newTasks = tasks.map(todo => {
-      if (todo.id === todoId) {
+  function updateStatus(todoId: number | string) {
+    const newTasks = tasks.map((todo) => {
+      if (todo.id == todoId) {
         return {
           ...todo,
-          status: todo.status === 'completed' ? 'active' : 'completed'
+          status: todo.status === 'completed' ? 'active' : 'completed',
         }
       } else {
         return todo
       }
     })
-    setTasks(newTasks);
+    setTasks(newTasks)
   }
-
   function addTodo(todo: string) {
-    
     const newTodo = {
       id: nanoid(5),
       text: todo,
-      status: 'active'
+      status: 'active',
     }
 
     const newTasks = [...tasks]
-    
+
     newTasks.unshift(newTodo)
 
     setTasks(newTasks)
+  }
 
+  function deleteTodo(id: string | number) {
+    if (window.confirm('Delete task?')) {
+      const newTasks = tasks.filter((todo) => todo.id !== id)
+      setTasks(newTasks)
+    }
   }
 
   let todosToShow: TodoType[] = [...tasks]
@@ -74,10 +78,11 @@ const Todo = () => {
       <Header>#Todo</Header>
       <TabContainer active={activeTab} handleClick={handleClick} />
       <TodoForm active={activeTab} handleAddTodo={addTodo} />
-      <TodoList 
-        active={activeTab} 
-        updateStatus={updateStatus} 
-        todos={todosToShow}         
+      <TodoList
+        active={activeTab}
+        updateStatus={updateStatus}
+        deleteTodo={deleteTodo}
+        todos={todosToShow}
       />
     </>
   )
